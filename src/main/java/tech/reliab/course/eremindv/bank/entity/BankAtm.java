@@ -1,20 +1,30 @@
 package tech.reliab.course.eremindv.bank.entity;
 
-import tech.reliab.course.eremindv.bank.enums.BankStatus;
-
+import jakarta.persistence.*;
+import lombok.AccessLevel;
+import tech.reliab.course.eremindv.bank.enums.*;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Entity
 public class BankAtm {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Setter(AccessLevel.NONE)
     private int id;
     private String name;
     private String address;
     private BankStatus status;
+    @ManyToOne
     private Bank bank;
+    @Column(length = 500)
     private String location;
+    @ManyToOne
     private Employee employee;
+    @ManyToOne
+    private BankOffice bankOffice;
     private boolean isWithdrawAvaiable;
     private boolean isDepositAvaiable;
     private double balance;
@@ -43,6 +53,8 @@ public class BankAtm {
         this.balance = bank.getTotalMoney();
         this.maintenanceCost = maintenanceCost;
     }
+
+    public BankAtm() { }
 
     @Override
     public String toString() {
